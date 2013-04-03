@@ -1,0 +1,255 @@
+<!DOCTYPE html> 
+<html> 
+    <head> 
+    <title>Select Job Page</title> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="css/jquery.mobile-1.0.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    
+    <script src="js/phonegap-1.1.0.js"></script>
+    <script src="js/jquery-1.7.1.min.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/jquery.mobile-1.0.min.js"></script>
+    <script type="text/javascript" src="//maps.googleapis.com/maps/api/js?sensor=false"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+            $("a.logoff").click(function() {
+                $.mobile.showPageLoadingMsg();
+                $.ajax({
+                    type: "POST",
+                    url: config.service.baseurl + "/auth/logout",
+                    data: {},
+                    dataType: "json",
+                    success: function(rsp) {
+						$.mobile.hidePageLoadingMsg();
+                        window.location.href = "login.html";
+                    },
+                    error: function(err) {
+                        $.mobile.hidePageLoadingMsg();
+                        alert("error while processing ...");
+                    }
+                });
+            });
+            
+            $("#select-job").change(function() {
+                if (!(id = $(this).val()))
+                    return false;
+                $.mobile.showPageLoadingMsg();
+                $.ajax({
+                    type: "POST",
+                    url: config.service.baseurl + "/job/detail",
+                    data: {
+                        "id" : id
+                    },
+                    dataType: "json",
+                    success: function(rsp) {
+						$.mobile.hidePageLoadingMsg();
+                        if (!rsp.auth) {
+                            window.location.href = "login.html";
+                            return;
+                        }
+                        $(".job-title .job_name").html(rsp.job.job_id);
+                        $(".job-details .name").html(rsp.job.job_cust_name);
+                        $(".job-details .address").html(rsp.job.job_cust_add + "<BR>" + rsp.job.country + "<BR>" + rsp.job.job_cust_city + ", " + rsp.job.state + "<BR>" + rsp.job.job_cust_zip);
+                        $(".job-details .contact").html(rsp.job.job_cust_phone);
+                        $(".job-details .phone").html(rsp.job.job_agent_phone);
+                        $(".job-details .email").html(rsp.job.job_agent_email);
+                        $(".job-note .note").html(rsp.job.job_notes);
+                        $(".join-job").show();
+                        var map = new google.maps.Map(
+                            document.getElementById('job-map'), 
+                            {
+                                zoom: 4,
+                                center: new google.maps.LatLng(rsp.job.lat, rsp.job.lng),
+                                mapTypeId: google.maps.MapTypeId.ROADMAP
+                            }
+                        );
+                        var marker = new google.maps.Marker({
+                            position: new google.maps.LatLng(rsp.job.lat, rsp.job.lng),
+                            map: map
+                        });
+                        
+                    },
+                    error: function(err) {
+                        $.mobile.hidePageLoadingMsg();
+                        alert("error while processing ...");
+                    }
+                });
+            });
+            
+            $(".login").click(function() {/*
+                navigator.notification.confirm(
+                    "", 
+                    function(button) {
+                        switch (button) {
+                        case 1:
+                            $.mobile.showPageLoadingMsg();
+                            $.ajax({
+                                type: "POST",
+                                url: config.service.baseurl + "/job/login",
+                                data: {
+                                    "id": $("#select-job").val()
+                                },
+                                dataType: "json",
+                                success: function(rsp) {
+                                    $.mobile.hidePageLoadingMsg();
+                                    if (!rsp.auth) {
+                                        window.location.href = "login.html";
+                                        return;
+                                    }
+                                    if (rsp.login == "duplicate") {
+                                        alert("The job assigned to another user. Please select other job.");
+                                        return;
+                                    }
+                                    window.location.href = rsp.redirect;
+                                },
+                                error: function(err) {
+                                    $.mobile.hidePageLoadingMsg();
+                                    alert("error while processing ...");
+                                }
+                            });
+                        break;
+                        }
+                    }, 
+                    "Are you sure you want job " + $("#select-job option:selected").text().toUpperCase() + "?", 
+                    "OK, Cancel"
+                );
+            */
+		
+	 if (!confirm("Are you sure you want job?"))
+                    return false;
+			 //if the user presses the "OK" button display the message "Javascript is cool!!" 
+		 
+			 
+			 $.mobile.showPageLoadingMsg();
+                            $.ajax({
+                                type: "POST",
+                                url: config.service.baseurl + "/job/login",
+                                data: {
+                                    "id": $("#select-job").val()
+                                },
+                                dataType: "json",
+                                success: function(rsp) {
+                                    $.mobile.hidePageLoadingMsg();
+                                    if (!rsp.auth) {
+                                        window.location.href = "job-setup.html";
+                                        return;
+                                    }
+                                    if (rsp.login == "duplicate") {
+                                        alert("The job assigned to another user. Please select other job.");
+                                        return;
+                                    }
+                                    window.location.href = rsp.redirect;
+                                },
+                                error: function(err) {
+                                    $.mobile.hidePageLoadingMsg();
+                                    alert("error while processing ...");
+                                }
+                            });
+			 
+			 
+			 //otherwise display another message 
+			 
+			
+			});
+            $.mobile.showPageLoadingMsg();
+            $.ajax({
+                type: "POST",
+                url: config.service.baseurl + "/job/list",
+                data: {},
+                dataType: "json",
+                success: function(rsp) {
+					$.mobile.hidePageLoadingMsg();
+                    if (!rsp.auth) {
+                        window.location.href = "login.html";
+                        return;
+                    }
+                    if (rsp.redirect) {
+                        window.location.href = rsp.redirect;
+                        return;
+                    }
+                    $(".header .account").html(rsp.date + "<BR>" + rsp.account);
+                    $(rsp.jobs).each(function(i) {
+                        $("#select-job").append("<option value='" + this.o_id + "'>" + this.jobid + "</option>");
+                    });
+                },
+                error: function(err) {
+                    $.mobile.hidePageLoadingMsg();
+                    alert("error while processing ...");
+                }
+            });
+		});
+	</script>
+</head>
+<body>
+<div class="logo"><a><img src="images/logo.png" width="110" /></a></div>
+<div data-role="page" data-theme="m">
+    <div class="page-job">
+        
+        <div class="header">
+            <div class="account"></div>
+            <a class="logoff">LOGOFF</a>
+        </div>
+        
+        <div class="content" data-role="content">
+            <div class="select job">
+                <select name="job" id="select-job" data-icon="arrow-r" data-iconpos="right">
+                    <option value="">Select Job</option>
+                </select>
+            </div>
+            <div class="job-title">
+                <img src="images/job_txt.png" width="21" alt="Job Title" title="Job Title" />
+                <div class="job-name"></div>
+                <div class="join-job" id="loginButtonArea">
+                    <input type="button" class="login" value="login" data-inline="true" data-shadow="false" />
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="job-info">
+                <div class="job-details">
+                    <div class="item">
+                        <label>Name</label>
+                        <span class="name"></span>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="item">
+                        <label>Address</label>
+                        <span class="address"></span>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="item">
+                        <label>Contact</label>
+                        <span class="contact"></span>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="item">
+                        <label>Phone</label>
+                        <span class="phone"></span>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="item">
+                        <label>Email</label>
+                        <span class="email"></span>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+                <div class="job-pos">
+                    <div id="job-map"></div>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="job-note">
+                <div class="item">
+                    <label>Notes</label>
+                    <span class="note"></span>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

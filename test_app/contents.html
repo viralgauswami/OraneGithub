@@ -1,0 +1,970 @@
+<!DOCTYPE html> 
+<html> 
+    <head> 
+    <title>Contents Page</title> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="css/jquery.mobile-1.0.css" />
+    <link rel="stylesheet" href="css/style.css" type="text/css" />
+    <link rel="stylesheet" href="css/colorbox.css" />
+    <script type="text/javascript" charset="utf-8" src="cordova-2.5.0.js";></script>
+      <script type="text/javascript" charset="utf-8" src="phonegap.js";></script>
+      <script type="text/javascript" charset="utf-8">
+   
+    var pictureSource;   // picture source
+		var destinationType; // sets the format of returned value 
+		var myimage
+		var myimage2;
+		var myimage3;
+
+    // Wait for Cordova to connect with the device
+    //
+    document.addEventListener("deviceready",onDeviceReady,false);
+
+    // Cordova is ready to be used!
+    //
+    function onDeviceReady() {
+        pictureSource=navigator.camera.PictureSourceType;
+        destinationType=navigator.camera.DestinationType;
+    }
+
+    // Called when a photo is successfully retrieved
+    //
+    function onPhotoDataSuccess(imageData) {
+      // Uncomment to view the base64 encoded image data
+      // console.log(imageData);
+
+      // Get image handle
+      //
+      var smallImage = document.getElementById('smallImage');
+		   myimage = imageData;
+		  // 	 alert(myimage);
+		  
+      // Unhide image elements
+      //
+      smallImage.style.display = 'block';
+
+      // Show the captured photo
+      // The inline CSS rules are used to resize the image
+      //
+      smallImage.src = "data:image/jpeg;base64," + imageData;
+	  
+      //document.getElementById('smallImage').getAttribute('src') == "images/logo.png";
+
+               
+	  
+		
+    }
+	 function onPhotoDataSuccess2(imageData) {
+      // Uncomment to view the base64 encoded image data
+      // console.log(imageData);
+
+      // Get image handle
+      //
+      var smallImage2 = document.getElementById('smallImage2');
+		   myimage2 = imageData;
+      // Unhide image elements
+      //
+      smallImage2.style.display = 'block';
+
+      // Show the captured photo
+      // The inline CSS rules are used to resize the image
+      //
+      smallImage2.src = "data:image/jpeg;base64," + imageData;
+	  
+	  
+    }
+	 function onPhotoDataSuccess3(imageData) {
+      // Uncomment to view the base64 encoded image data
+      // console.log(imageData);
+
+      // Get image handle
+      //
+      var smallImage3 = document.getElementById('smallImage3');
+		   myimage3 = imageData;
+      // Unhide image elements
+      //
+      smallImage3.style.display = 'block';
+
+      // Show the captured photo
+      // The inline CSS rules are used to resize the image
+      //
+      smallImage3.src = "data:image/jpeg;base64," + imageData;
+	  
+	  
+    }
+
+    // Called when a photo is successfully retrieved
+    //
+    function onPhotoURISuccess(imageURI) {
+      // Uncomment to view the image file URI 
+      // console.log(imageURI);
+
+      // Get image handle
+      //
+      var largeImage = document.getElementById('largeImage');
+
+      // Unhide image elements
+      //
+      largeImage.style.display = 'block';
+
+      // Show the captured photo
+      // The inline CSS rules are used to resize the image
+      //
+      largeImage.src = imageURI;
+    }
+
+    // A button will call this function
+    //
+	
+	
+    function capturePhoto() {
+      // Take picture using device camera and retrieve image as base64-encoded string
+      navigator.camera.getPicture(onPhotoDataSuccess, onFail, { quality: 50,
+        destinationType: destinationType.DATA_URL });
+    }
+	function capturePhoto2() {
+      // Take picture using device camera and retrieve image as base64-encoded string
+      navigator.camera.getPicture(onPhotoDataSuccess2, onFail, { quality: 50,
+        destinationType: destinationType.DATA_URL });
+    }
+	function capturePhoto3() {
+      // Take picture using device camera and retrieve image as base64-encoded string
+      navigator.camera.getPicture(onPhotoDataSuccess3, onFail, { quality: 50,
+        destinationType: destinationType.DATA_URL });
+    }
+
+    // A button will call this function
+    //
+    function capturePhotoEdit() {
+      // Take picture using device camera, allow edit, and retrieve image as base64-encoded string  
+      navigator.camera.getPicture(onPhotoDataSuccess, onFail, { quality: 20, allowEdit: true,
+        destinationType: destinationType.DATA_URL });
+    }
+
+    // A button will call this function
+    //
+    function getPhoto(source) {
+	
+      // Retrieve image file location from specified source
+      navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 50, 
+        destinationType: destinationType.FILE_URI,
+        sourceType: source });
+    }
+
+    // Called if something bad happens.
+    // 
+    function onFail(message) {
+      alert('Failed because: ' + message);
+    }
+	
+	
+		
+	 </script>
+  
+ <!--   <script src="js/phonegap-1.1.0.js"></script>-->
+	
+      
+    
+    <script type="text/javascript" charset="utf-8" src="PrintPlugin.js"></script>
+    <script src="js/jquery-1.7.1.min.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/jquery.mobile-1.0.min.js"></script>
+    <script src="js/jquery.colorbox.min.js"></script>
+  
+    <script type="text/javascript">
+
+	
+	
+	
+        function getParams() {
+            var idx = document.URL.indexOf('?');
+            if (idx != -1) {
+                var tempParams = new Object();
+                var pairs = document.URL.substring(idx+1,document.URL.length).split('&');
+                for (var i=0; i<pairs.length; i++) {
+                    nameVal = pairs[i].split('=');
+                    tempParams[nameVal[0]] = nameVal[1];
+                }
+                return tempParams;
+            }
+        }
+        var params = getParams();
+        function print(html) {
+            //Get HTML string
+            //alert(html);
+            
+            /*
+            Pass a DOM node (or HTML string) and - optionally - success function, error function, position of print dialog (iPad only).
+            */
+            window.plugins.printPlugin.print(html,
+                function(result) {
+                    alert("Printing successful");
+                },
+                function(result) {
+                    if (!result.available){
+                        //alert("Printing is not available");
+                    }
+                    else{
+                        //Localised error description
+                        //alert(result.error);
+                    }
+                }
+                
+                //Add the following on an iPad to position the dialog
+                ,
+                {dialogOffset: {left: 500, top: 900}}
+            );
+        }
+        $(document).ready(function() {
+            /*window.plugins.printPlugin.isPrintingAvailable(
+                function(result){
+                    alert(result.available ? "Printing is available" : "Printing NOT available");
+                }
+            );*/
+            $("a.logoff").click(function() {
+                $.mobile.showPageLoadingMsg();
+                $.ajax({
+                    type: "POST",
+                    url: config.service.baseurl + "/auth/logout",
+                    data: {},
+                    dataType: "json",
+                    success: function(rsp) {
+						$.mobile.hidePageLoadingMsg();
+                        window.location.href = "login.html";
+                    },
+                    error: function(err) {
+                        $.mobile.hidePageLoadingMsg();
+                        alert("error while processing ...");
+                    }
+                });
+            });
+            $(".menu a").click(function() {
+                if (!$(this).parent().hasClass("active")) {
+                    window.location.href = $(this).attr("rel");
+                }
+            });
+            $(".close").click(function() {
+                if (!confirm("Are you sure you want to close this job?"))
+                    return false;
+                $.mobile.showPageLoadingMsg();
+                $.ajax({
+                    type: "POST",
+                    url: config.service.baseurl + "/job/close",
+                    data: {},
+                    dataType: "json",
+                    success: function(rsp) {
+						$.mobile.hidePageLoadingMsg();
+                        if (!rsp.auth) {
+                            window.location.href = "login.html";
+                            return;
+                        }
+                        window.location.href = rsp.redirect;
+                    },
+                    error: function(err) {
+                        $.mobile.hidePageLoadingMsg();
+                        alert("error while processing ...");
+                    }
+                });
+            });
+            $(".viewitems").click(function() {
+                $.mobile.showPageLoadingMsg();
+                $.ajax({
+                    type: "POST",
+                    url: config.service.baseurl + "/content/choose-room",
+                    data: {
+                        roomid: $("#select-room").val()
+                    },
+                    dataType: "json",
+                    success: function(rsp) {
+						$.mobile.hidePageLoadingMsg();
+                        if (!rsp.auth) {
+                            window.location.href = "login.html";
+                            return;
+                        }
+                        window.location.href = "view-contents.html";
+                    },
+                    error: function(err) {
+                        $.mobile.hidePageLoadingMsg();
+                        alert("error while processing ...");
+                    }
+                });                
+            });
+            $(".box-info .select.box .ui-select").click(function() {
+                if ($(".box-info .box-type").hasClass("hidden")) {
+                    $(".box-info .box-type").slideDown("fast", function() {
+                        $(".box-info .box-type").removeClass("hidden");
+                    });
+                }
+                else {
+                    $(".box-info .box-type").slideUp("fast", function() {
+                        $(".box-info .box-type").addClass("hidden");
+                    });
+                }
+            });
+            $(".type-item > .box-item").live("click", function() {
+                if ($(this).hasClass("selected"))
+                    return false;
+                var _this = this;
+                if ($(".type-item > .box-item.selected").size()) {
+                    if ($(".type-item > .box-item.selected").next().size()) {
+                        $(".type-item > .box-item.selected").next().slideUp("fast", function() {
+                            $(this).addClass("hidden");
+                            $(this).prev().removeClass("selected");
+                            $(".type-item").find(".selected").removeClass("selected").next().hide().addClass("hidden");
+                            $(_this).addClass("selected");
+                            $(_this).next().slideDown("fast", function() {
+                                $(this).removeClass("hidden");
+                            });
+                        });
+                    }
+                    else {
+                        $(".type-item > .box-item.selected").removeClass("selected");
+                        $(".type-item").find(".selected").removeClass("selected").next().hide().addClass("hidden");
+                        $(this).addClass("selected");
+                        $(this).next().slideDown("fast", function() {
+                            $(this).removeClass("hidden");
+                        });
+                    }
+                }
+                else {
+                    $(".type-item").find(".selected").removeClass("selected").next().hide().addClass("hidden");
+                    $(this).addClass("selected");
+                    $(this).next().slideDown("fast", function() {
+                        $(this).removeClass("hidden");
+                    });
+                }
+                
+            });
+            $(".list-item > .box-item").live("click", function() {
+                if ($(this).hasClass("selected"))
+                    return false;
+                var _this = this;
+                if ($(this).parents(".box-list").find(".box-item.selected").size()) {
+                    if ($(this).parents(".box-list").find(".box-item.selected").next().size()) {
+                        $(this).parents(".box-list").find(".box-item.selected").next().slideUp("fast", function() {
+                            $(_this).addClass("selected");
+                            $(this).addClass("hidden");
+                            $(this).prev().removeClass("selected");
+                            $(_this).next().slideDown("fast", function() {
+                                $(this).addClass("hidden;")
+                            });
+                        });
+                    }
+                    else {
+                        $(this).parents(".box-list").find(".box-item.selected").removeClass("selected");
+                        $(this).addClass("selected");
+                        $(this).next().slideDown("fast", function() {
+                            $(this).removeClass("hidden");
+                        });
+                    }
+                }
+                else {
+                    $(this).addClass("selected");
+                    $(this).next().slideDown("fast", function() {
+                        $(this).removeClass("hidden");
+                    });
+                }
+            });
+            $(".box-style .box-item").live("click", function() {
+                $(this).parents(".box-style").find(".box-item.selected").removeClass("selected");
+                $(this).addClass("selected");
+            });
+            $(".box-info .box-type .box-item").live("click", function() {
+                if (!$(this).next().size()) {
+                    var _this = this;
+                    $(".box-info .box-type").delay(500).slideUp("fast", function() {
+                        //$("#print_result .jobid").html("&lt;Job #" + $(".contentid").attr("jobid") + "&gt;");
+                        $("#print_result .jobname").html("&lt;" + $(".job-title .job-name").html() + "&gt;");
+                        $("#print_result .roomname").html($("#select-room option:selected").text());
+                        $("#print_result .contentid").html("<small>#</small>" + $(".contentid").attr("contentid"));
+                        switch ($(_this).attr("type")) {
+                            case "box":
+                                $(".item-locate .box-type").html("box");
+                                $(".item-locate .box-id").html($(".contentid").attr("jobid") + "-box-" + $(".contentid").attr("roomkey") + "-" + $(".contentid").attr("contentid"));
+                                $(".locate-in .box-type").html("box");
+                                $(".locate-in .box-id").html($(_this).attr("contentid"));
+                                $(".item-locate").removeClass("entire");
+                                $(".located-in").show();
+                                $(".locate-in").show();
+                                $("#print_result .boxtype").html("box");
+                                break;
+                            case "newbox":
+                                $(".item-locate .box-type").html("box");
+                                $(".item-locate .box-id").html($(".contentid").attr("jobid") + "-box-" + $(".contentid").attr("roomkey") + "-" + $(".contentid").attr("contentid"));
+                                $(".item-locate").addClass("entire");
+                                $(".located-in").hide();
+                                $(".locate-in").hide();
+                                $("#print_result .boxtype").html("box");
+                                break;
+                            case "tag":
+                                $(".item-locate .box-type").html("tag");
+                                $(".item-locate .box-id").html($(".contentid").attr("jobid") + "-tag-" + $(".contentid").attr("roomkey") + "-" + $(".contentid").attr("contentid"));
+                                $(".locate-in .box-type").html("tag");
+                                $(".locate-in .box-id").html($(_this).attr("contentid"));
+                                $(".item-locate").removeClass("entire");
+                                $(".located-in").show();
+                                $(".locate-in").show();
+                                $("#print_result .boxtype").html("tag");
+                                break;
+                            case "newtag":
+                            case "notboxedtag":
+                                $(".item-locate .box-type").html("tag");
+                                $(".item-locate .box-id").html($(".contentid").attr("jobid") + "-tag-" + $(".contentid").attr("roomkey") + "-" + $(".contentid").attr("contentid"));
+                                $(".item-locate").addClass("entire");
+                                $(".located-in").hide();
+                                $(".locate-in").hide();
+                                $("#print_result .boxtype").html("tag");
+                                break;
+                            case "bag":
+                                $(".item-locate .box-type").html("bag");
+                                $(".item-locate .box-id").html($(".contentid").attr("jobid") + "-bag-" + $(".contentid").attr("roomkey") + "-" + $(".contentid").attr("contentid"));
+                                $(".item-locate").addClass("entire");
+                                $(".located-in").hide();
+                                $(".locate-in").hide();
+                                $("#print_result .boxtype").html("bag");
+                                break;
+                            default:
+                                break;
+                        }
+                        $(".box-info").slideUp("fast", function() {
+                            $(".locate").delay(300).show();
+                            $(".submit-item").removeClass("hidden").delay(300).show();
+                        });
+                    }).addClass("hidden");
+                }
+            });
+            $(".item-locate .edit-locate").click(function() {
+                $(".locate").slideUp("fast", function() {
+                    $(".submit-item").addClass("hidden").slideUp("fast", function() {
+                        $(".box-info").delay(300).show();
+                    });                    
+                });                
+            });
+            var initContentInfo = function() {
+                $("#select-category option").each(function (i) {
+                    if ($(this).attr('value') != "")
+                        $(this).remove();
+                });
+                $("#select-category").prev().find(".ui-btn-text").html("Category");
+                $(".object-name").val("");
+                $(".object-desc").val("");
+               /*  $(".photo-sec .items .image-item").remove(); */
+                $("#damage-state").val("").prev().find(".ui-btn-text").html("Is this item damaged?");
+                $(".damage-desc").val("").parent().addClass("hidden").hide();
+                $(".damage-info .photo-sec").addClass("hidden").hide();
+                $(".box-info .box-item.selected").removeClass("selected");
+                $(".box-info .box-list .items").html("");
+                $(".box-info .box-style").hide();
+                $(".box-info .box-list").hide();
+                $(".box-info .box-type").attr("style", "").addClass("hidden");
+                $(".box-info").show();
+                $(".submit-item").addClass("hidden").hide();
+                $(".room-info .add-item").show();
+                $(".locate").hide();
+                if (params && params["add-item"] == "true") {
+                    $(".room-info .add-item").trigger("click");
+                }
+            };
+            $("#select-room").change(function() {
+                if (!$(this).val())
+                    return false;
+                $(".room-info .room-name").html($("#select-room option:selected").text());
+                $(".room-info").show();
+                $(".content-item").hide();
+                initContentInfo();
+            });
+            $("#damage-state").change(function() {
+                if ($(this).val() == "damaged") {
+                    $(".damage-sec .select.state").next().show();
+                    $(".damage-sec").next().show();
+                    return false;
+                }
+                $(".damage-sec .select.state").next().hide();
+                $(".damage-sec").next().hide();
+            });
+            /* $(".add-image").click(function() { 
+            	
+                var _this = this;
+                var options = {
+                    quality: 100,
+                    destinationType: navigator.camera.DestinationType.FILE_URI
+                };
+                
+                navigator.camera.getPicture(
+                    function (uri) {
+					
+                       
+						var imageItem = $("<div class='image-item'><img src='' width='70' height='70' /></div>");
+                        $(_this).parent().prepend(imageItem);
+                        
+                        $(imageItem).children("img").attr('src', uri);
+                    },
+                    function() {},
+                    options
+                );
+            
+            });*/
+            $(".room-info .add-item").click(function() {
+                $.mobile.showPageLoadingMsg();
+                $.ajax({
+                    type: "POST",
+                    url: config.service.baseurl + "/content/add-item",
+                    data: {
+                        roomid: $("#select-room").val()
+                    },
+                    dataType: "json",
+                    success: function(rsp) {
+						$.mobile.hidePageLoadingMsg();
+                        if (!rsp.auth) {
+                            window.location.href = "login.html";
+                            return;
+                        }
+                        $(".item-info .contentid").html(rsp.jobid + '-' + rsp.roomkey + '-' + rsp.content_last).attr("contentid", rsp.content_last).attr("roomkey", rsp.roomkey).attr("jobid", rsp.jobid);
+                        $(rsp.categories).each(function (i) {
+                            $("#select-category").append("<option value='" + this.id + "'>" + this.name + "</option>");
+                        });
+                        $(rsp.contents.boxes).each(function (i) {
+                            $(".type-item.box .items").html("");
+                            var item = $(".type-item.box .list-item.template").clone().removeClass("hidden").removeClass("template");
+                            $(item).find(".box-item").html(this.name).attr("value", this.id).attr("contentid", this.contentid);
+                            $(".type-item.box .items").append(item);
+                        });
+                        $(rsp.contents.tags).each(function (i) {
+                            $(".type-item.tag .items").html("");
+                            var item = $(".type-item.tag .list-item.template").clone().removeClass("hidden").removeClass("template");
+                            $(item).find(".box-item").html(this.name).attr("value", this.id).attr("contentid", this.contentid);
+                            $(".type-item.tag .items").append(item);
+                        });
+                        $(".content-item").show();
+                        $(".room-info .add-item").hide();
+                    },
+                    error: function(err) {
+                        $.mobile.hidePageLoadingMsg();
+                        alert("error while processing ...");
+                    }
+                });
+            });
+            $("input.submit").click(function() {
+                if (!$(".object-name").val()) {
+                    alert("Please enter object name.");
+                    return false;
+                }
+                if (!$("#select-category").val()) {
+                    alert("Please select category.");
+                    return false;
+                }
+                var selectedBox = false;
+                $(".box-info .box-type .box-item.selected").each(function(i) {
+                    if (!$(this).next().size()) {
+                        if ($(this).attr("type"))
+                            selectedBox = this;
+                    }
+                });
+				
+				 var selectedtag = false;
+                $(".box-info .type-item .box-item.selected").each(function(i) {
+                    if (!$(this).next().size()) {
+                        if ($(this).attr("type"))
+                            selectedtag = this;
+                    }
+                });
+                
+              
+				
+                if (!selectedBox) {
+                    alert("Please select box / tag / bag.");
+                    return false;
+                }
+                
+               /*  var a= $(selectedbag).attr("value");
+				alert(a); */
+				
+				
+		      $.mobile.showPageLoadingMsg();
+                $.ajax({
+                    type: "POST",
+                    url: config.service.baseurl + "/content/submit",
+                    data: {
+                        roomid: $("#select-room").val(),
+                        contentid: $(".contentid").attr("contentid"),
+                        name: $(".object-name").val(),
+                        desc: $(".object-desc").val(),
+                        category: $("#select-category").val(), 
+                        damage: $("#damage-state").val(),
+                        damagedesc: $(".damage-desc").val(),
+						item_photo: myimage,
+						item_damage_photo: myimage2,
+						item_damage_photo1: myimage3,
+						item_total_loss: $("#item_total_loss").val(),
+						damagedesc: $(".damage-desc").val(),
+                        boxtype: $(selectedBox).attr("type"), 
+                        boxvalue: $(selectedBox).attr("value")
+                    },
+                    dataType: "json",
+                    success: function (rsp) {
+						/* $.mobile.hidePageLoadingMsg(); */
+						  window.location.href = "contents.html";
+                 /*          return; */
+                        
+                         /*  if (!rsp.auth) {
+                            window.location.href = "login.html";
+                            return;
+                        } */
+                       /*  var options = new FileUploadOptions();
+                        options.fileKey = "image";
+                        options.mimeType = "image/jpeg";
+                        var params = new Object();
+                        params.contentid = rsp.contentid; */
+                        /* if ($(".item-info .items .image-item").size() > 0) {
+                            params.phototype = "base";
+                            options.params = params;
+                            $(".item-info .items .image-item").each(function(i) {
+                                var ft = new FileTransfer();
+								$.mobile.showPageLoadingMsg();
+                                ft.upload(
+                                    $(this).find("img").attr('src'), 
+                                    config.service.baseurl + "/content/upload-photo", 
+                                    function(r) {
+										$.mobile.hidePageLoadingMsg();
+                                        if (i == ($(".item-info .items .image-item").size() - 1)) {
+                                            $(".item-info .items .image-item").slideUp("fast", function() {
+                                                $(this).remove();
+                                                if ($("#damage-state").val() != "damaged" || $(".damage-info .items .image-item").size() == 0) {
+                                                    initContentInfo();
+                                                    $(".content-item").hide();
+                                                }
+                                            });
+                                        }
+                                    }, 
+                                    function() {
+                                        $.mobile.hidePageLoadingMsg();
+                                        alert("error while processing ...");
+                                    }, 
+                                    options
+                                );
+                            });
+                        } */
+                        /* if ($("#damage-state").val() == "damaged" && $(".damage-info .items .image-item").size() > 0) {
+                            params.phototype = "damage";
+                            options.params = params;
+                            $(".damage-info .items .image-item").each(function(i) {
+                                var ft = new FileTransfer();
+								$.mobile.showPageLoadingMsg();
+                                ft.upload(
+                                    $(this).find("img").attr('src'), 
+                                    config.service.baseurl + "/content/upload-photo", 
+                                    function(r) {
+										$.mobile.hidePageLoadingMsg();
+                                        if (i == ($(".damage-info .items .image-item").size() - 1)) {
+                                            $(".damage-info .items .image-item").slideUp("fast", function() {
+                                                $(this).remove();
+                                                initContentInfo();
+                                                $(".content-item").hide();
+                                            });
+                                        }
+                                    }, 
+                                    function() {
+                                        $.mobile.hidePageLoadingMsg();
+                                        alert("error while processing ...");
+                                    }, 
+                                    options
+                                );
+                            });
+                        } */
+                       /*  if ($(".item-info .items .image-item").size() == 0 && ($("#damage-state").val() != "damaged" || $(".damage-info .items .image-item").size() == 0)) {
+                            initContentInfo();
+                            $(".content-item").hide();
+                        } */
+                    },
+                    error:  function (err) {
+  					  window.location.href = "contents.html";
+                        /* $.mobile.hidePageLoadingMsg();
+                        alert("error while processing ..."); */
+                    } 
+                });
+            });
+            $(".print").colorbox({
+                inline: true, 
+                width: "670px", 
+                height: "350px", 
+                initialWidth: "670px", 
+                initialHeight: "300px", 
+                opacity: "0.5",
+                onComplete: function() {
+                    $("#colorbox").append($(".print-content").clone().addClass('custom'));
+                    $(".print-content.custom").click(function() {
+                        print($("#print_result").html());
+                    });
+                },
+                onClosed: function() {
+                    $(".print-content.custom").remove();
+                }
+            });
+            $.mobile.showPageLoadingMsg();
+            $.ajax({
+                type: "POST",
+                url: config.service.baseurl + "/content/default",
+                data: {},
+                dataType: "json",
+                success: function(rsp) {
+					$.mobile.hidePageLoadingMsg();
+                    if (!rsp.auth) {
+                        window.location.href = "login.html";
+                        return;
+                    }
+                    $(".header .account").html(rsp.date + "<BR>" + rsp.account);
+                    $(".job-name").html(rsp.jobname);
+                    $(rsp.rooms).each(function (i) {
+                        $("#select-room").append("<option value='" + this.id + "'>" + this.name + "</option>");
+                    });
+                    if (rsp.roomid) {
+                        $("#select-room").val(rsp.roomid);
+                        $(".select.room .ui-btn-text").html($("#select-room option:selected").text());
+                        $(".room-info .room-name").html($("#select-room option:selected").text());
+                        $(".room-info").show();
+                        $(".content-item").hide();
+                        initContentInfo();
+                    }
+                },
+                error: function(err) {
+                    $.mobile.hidePageLoadingMsg();
+                    alert("error while processing ...");
+                }
+            });
+            if (params && params["add-item"] == "true") {
+           
+            }
+        });
+        
+    </script>
+</head>
+<body>
+<div class="logo"><a><img src="images/logo.png" width="110" /></a></div>
+<div data-role="page" data-theme="m">
+    <div class="page-job-setup">
+        
+        <div class="header">
+            <div class="account"></div>
+            <a class="logoff">LOGOFF</a>
+        </div>
+        
+        <div class="content" data-role="content">
+            <div class="job-title">
+                <img src="images/job_txt.png" width="14" alt="Job Title" title="Job Title" />
+                <div class="job-name"></div>
+                <div class="close-job">
+                    <input type="button" class="close" value="close" data-inline="true" data-shadow="false" />
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="menu">
+                <div class="item"><a class="setup" rel="job-setup.html">setup</a></div>
+                <div class="item"><a class="rooms" rel="rooms.html">rooms</a></div>
+                <div class="item active"><a class="contents" rel="contents.html">contents</a></div>
+                <div class="item"><a class="on-truct" rel="on-truck.html">on truck</a></div>
+                <div class="item last"><a class="pack-back" rel="pack-back.html">pack back</a></div>
+                <div class="clear"></div>
+            </div>
+            <div class="select room">
+                <select name="select-room" id="select-room" data-icon="arrow-r" data-iconpos="right">
+                    <option value="">Select Room</option>
+                </select>
+            </div>
+            <div class="room-info hidden">
+                <div class="room-name">Kitchen</div>
+                <a class="add-item"><img src="images/add_item.png" /></a>
+                <div class="view-items"><input type="button" class="viewitems" value="view items" data-inline="true" data-shadow="false" /></div>
+                <div class="clear"></div>
+            </div>
+            <div class="content-item hidden">
+                <div class="item-info">
+                    <div class="info-sec">
+                        <div class="item-id"><span>Item</span><div class="contentid" value="" contentid="">2304-Kit-26</div></div>
+                        <input type="text" placeholder="&lt;enter object name&gt;" class="object-name" />
+                        <input type="text" placeholder="&lt;enter description&gt;" class="object-desc" />
+                    </div>
+                    <div class="photo-sec">
+                        <div class="select category">
+                            <select name="select-category" id="select-category" data-icon="arrow-r" data-iconpos="right">
+                                <option value="">Category</option>
+                            </select>
+                        </div>
+                        <div class="image">
+                            <div class="items">
+                             
+          					<img style="display:none;width:70px;height:70px;" class="image-item" id="smallImage" src="" />
+                            <a    onclick="capturePhoto();"><img src="images/add_image.png" /></a>
+                            
+                            
+                            </div>
+                            <!-- <div class="image-item template hidden">
+                                <img src="" />
+                            </div> -->
+                            <div class="clear"></div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="damage-info">
+                    <div class="damage-sec">
+                        <div class="select state">
+                          <select name="item_total_loss" id="item_total_loss" data-icon="arrow-r" data-iconpos="right">
+                                <option value="N" selected >No</option>
+                                <option value="Y">Yes</option>
+                               
+                            </select>
+                           
+                          
+                        </div>
+                        
+                    </div>
+                    
+                    <div class="clear"></div>
+                </div>
+                <div class="damage-info">
+                    <div class="damage-sec">
+                        <div class="select state">
+                       
+                            <select name="damage-state" id="damage-state" data-icon="arrow-r" data-iconpos="right">
+                                <option value="">Is this item damaged?</option>
+                                <option value="damaged">Damaged</option>
+                                <option value="notdamaged">Not Damaged</option>
+                            </select>
+                            
+                          
+                        </div>
+                        <div class="hidden">
+                            <input type="text" placeholder="&lt;enter description&gt;" class="damage-desc hidden" />
+                        </div>
+                    </div>
+                    <div class="photo-sec hidden">
+                        <div class="image">
+                            <div class="items">
+                
+                             <img style="display:none;width:70px;height:70px;" class="image-item" id="smallImage2" src="" />
+                            <a  onclick="capturePhoto2();"><img src="images/add_image.png" /></a>
+                            
+                            
+                            <br/>
+                            <br/>
+                             
+                              <img style="display:none;width:70px;height:70px;" class="image-item"   id="smallImage3" src="" />
+                            <a  onclick="capturePhoto3();"><img src="images/add_image.png" /></a>
+                            
+                            
+                            </div>
+                           <!--  <div class="image-item template hidden">
+                                <img src="" />
+                            </div>   -->                          
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="box-info">
+                    <div class="select box">
+    
+
+                        <select name="select-box" id="select-box" data-icon="arrow-r" data-iconpos="right">
+                            <option value="">Box / Bag / Tag</option>
+                        </select>
+                        <div class="box-type hidden">
+                            <div class="type-item box">
+                                <div class="box-item">Boxed</div>
+                                <div class="box-list hidden">
+                                    <div class="list-item new first">
+                                        <div class="box-item"><img src="images/new_box_plug.png" /> New Box</div>
+                                        <div class="box-style hidden">
+                                            <span class="s"><span class="box-item" type="newbox" value="s">s</span></span>
+                                            <span class="m"><span class="box-item" type="newbox" value="m">m</span></span>
+                                            <span class="l"><span class="box-item" type="newbox" value="l">l</span></span>
+                                            <span class="xl"><span class="box-item" type="newbox" value="xl">xl</span></span>
+                                            <span class="w"><span class="box-item" type="newbox" value="wardrobe">wardrobe</span></span>
+                                        </div>
+                                    </div>
+                                    <div class="list-item template hidden">
+                                        <div class="box-item" type="box" value="">Kit 105</div>
+                                    </div>
+                                    <div class="items"></div>
+                                </div>
+                            </div>
+                            <div class="type-item tag">
+                                <div class="box-item">Tag - Large Item</div>
+                                <div class="box-list hidden">
+                                    <div class="list-item first">
+                                        <div class="box-item" type="notboxedtag">Not Tag</div>
+                                    </div>
+                                    <div class="list-item new">
+                                        <div class="box-item"><img src="images/new_box_plug.png" /> New tag</div>
+                                        <div class="box-style hidden">
+                                            <span class="s"><span class="box-item" type="newtag" value="s">s</span></span>
+                                            <span class="m"><span class="box-item" type="newtag" value="m">m</span></span>
+                                            <span class="l"><span class="box-item" type="newtag" value="l">l</span></span>
+                                            <span class="xl"><span class="box-item" type="newtag" value="xl">xl</span></span>
+                                            <span class="w"><span class="box-item" type="newtag" value="wardrobe">wardrobe</span></span>
+                                        </div>
+                                    </div>
+                                    <div class="list-item template hidden">
+                                        <div class="box-item" type="tag" value="">Kit 105</div>
+                                    </div>
+                                    <div class="items"></div>
+                                </div>
+                            </div>
+                            <div class="type-item">
+                                <div class="box-item" type="bag" value="bag" >Bag</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="locate hidden">
+                    <div class="item-locate">
+                        <div class="locate-info">
+                            <span class="box-type">Tag</span>
+                            <span class="box-id">2304-T-Kit026</span>
+                            <a class="print" href="#print_result"><img src="images/print.png" /></a>
+                            <div class="clear"></div>
+                        </div>
+                        <a class="edit-locate">edit</a>
+                    </div>
+                    <div class="located-in">Located In</div>
+                    <div class="locate-in">
+                        <div class="locate-info">
+                            <span class="box-type">Bag</span>
+                            <span class="box-id">2304-B-Kit005</span>
+                            <!--<a class="print"><img src="images/print.png" /></a>-->
+                            <div class="clear"></div>
+                        </div>
+                        <a class="edit-locate">edit</a>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="submit-item big-btn hidden">
+                    <input type="button" class="submit" value="submit" data-inline="true" data-shadow="false" />
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer"></div>
+        
+    </div>
+</div>
+<div class="hidden">
+    <a class="print-content"><img src="images/print_white.png"></a>
+    <div id="print_result">        
+        <div class="job-info">
+            <div class="jobid"></div>
+            <div class="jobname"></div>
+            <div class="clear"></div>
+        </div>    
+        <div class="boxtype"></div>
+        <div class="content-info">
+            <div class="roomname"></div>
+            <div class="contentid"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+</body>
+</html>

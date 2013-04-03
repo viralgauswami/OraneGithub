@@ -1,0 +1,155 @@
+<h1>PhoneGap Print-Plugin</h1>
+
+<p>by Ian Tipton (github.com/itip).</p>
+
+<p>Print from iOS devices to AirPrint compatible printers. </p>
+
+<h2>Adding the Plugin to your project</h2>
+
+<p>Using this plugin requires <a href="http://github.com/phonegap/phonegap-iphone">iPhone PhoneGap</a>.</p>
+
+<ol>
+<li>Make sure your PhoneGap Xcode project has been <a href="http://wiki.phonegap.com/Upgrade-your-PhoneGap-Xcode-Template-for-iOS-4">updated for the iOS 4 SDK</a>, and you are using PhoneGap version 1 or higher.</li>
+<li>Add the .h and .m files to your Plugins folder in your project</li>
+<li>Add the .js files to your "www" folder on disk, and add reference(s) to the .js files as  tags in your html file(s)</li>
+<li>Update the PhoneGap.plist file: Find PhoneGap.plist in your project, expand the "Plugins" section, click on "+" on the last line to add a new line. Add a new value with a key of 'printPlugin' and a value of 'PrintPlugin'</li>
+<li>Although printing is only supported on iOS 4.2+, if your app can be installed on earlier versions of iOS then see the 'Supporting devices running below iOS &lt; 4.2' below.</li>
+<li>See the sample index.html file for an example use of the plugin.</li>
+</ol><h2>RELEASE NOTES</h2>
+
+<h3>20110813</h3>
+
+<ul>
+<li>Initial release</li>
+<li>Allows the printing of an HTML string to AirPrint compatible printers.</li>
+</ul><h2>Using the plugin</h2>
+
+<p>The plugin creates the object window.plugins.pgPrint with two methods:</p>
+
+<h3>isPrintingAvailable</h3>
+
+<p>Printing is only available on devices capable of multi-tasking (iPhone 3GS, iPhone 4 etc.) running iOS 4.2 or later. You can use this function to hide print functionality from users who will be unable to use it. Function takes a callback function, passed to which is a JSON object which contains a boolean property called available.</p>
+
+<div class="highlight">
+<pre><span class="cm">/*</span>
+<span class="cm"> Find out if printing is available. Use this for showing/hiding print buttons. </span>
+<span class="cm"> */</span>
+ <span class="nb">window</span><span class="p">.</span><span class="nx">plugins</span><span class="p">.</span><span class="nx">printPlugin</span><span class="p">.</span><span class="nx">isPrintingAvailable</span><span class="p">(</span>
+    <span class="kd">function</span><span class="p">(</span><span class="nx">result</span><span class="p">){</span>
+        <span class="nx">alert</span><span class="p">(</span><span class="nx">result</span><span class="p">.</span><span class="nx">available</span> <span class="o">?</span> <span class="s2">"Printing is available"</span> <span class="o">:</span> <span class="s2">"Printing NOT available"</span><span class="p">);</span>
+    <span class="p">}</span>
+ <span class="p">);</span>
+</pre>
+</div>
+
+
+<h3>print</h3>
+
+<p>Function takes an html string and (optionally) a success callback, failure callback, and options.</p>
+
+<ol>
+<li>An HTML string, e.g. <strong>hello<strong></strong></strong>
+</li>
+<li>Success callback - receives an object with two parameters:
+
+<ul>
+<li>success (always true)</li>
+<li>available (always true)</li>
+</ul>
+</li>
+<li>Failure callback - receives an object with properties
+
+<ul>
+<li>success (always false)</li>
+<li>available (false if printing not available on this device)</li>
+<li>error (error message returned by iOS in the event of an error)</li>
+</ul>
+</li>
+<li>An object which contains printing options (see below).</li>
+</ol><div class="highlight">
+<pre><span class="c1">//Get HTML string</span>
+<span class="kd">var</span> <span class="nx">html</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">"printHTML"</span><span class="p">).</span><span class="nx">innerHTML</span><span class="p">;</span>
+
+<span class="cm">/*</span>
+<span class="cm"> Pass an HTML and - optionally - success function, error function.</span>
+<span class="cm"> */</span>
+ <span class="nb">window</span><span class="p">.</span><span class="nx">plugins</span><span class="p">.</span><span class="nx">printPlugin</span><span class="p">.</span><span class="nx">print</span><span class="p">(</span>
+     <span class="nx">html</span><span class="p">,</span>
+     <span class="kd">function</span><span class="p">(</span><span class="nx">result</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">alert</span><span class="p">(</span><span class="s2">"Printing successful"</span><span class="p">);</span>
+     <span class="p">},</span> 
+     <span class="kd">function</span><span class="p">(</span><span class="nx">result</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">result</span><span class="p">.</span><span class="nx">available</span><span class="p">){</span>
+           <span class="nx">alert</span><span class="p">(</span><span class="s2">"Printing is not available"</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">else</span><span class="p">{</span>
+           <span class="c1">//Localised error description</span>
+           <span class="nx">alert</span><span class="p">(</span><span class="nx">result</span><span class="p">.</span><span class="nx">error</span><span class="p">);</span>
+        <span class="p">}</span>
+     <span class="p">}</span>
+     <span class="cm">/*</span>
+<span class="cm">      Add the following on an iPad to position the dialog</span>
+<span class="cm">      ,</span>
+<span class="cm">      {dialogOffset: {left: 500, top: 900}}</span>
+<span class="cm">      */</span>
+ <span class="p">);</span>
+</pre>
+</div>
+
+
+<h3>Supporting devices running below iOS &lt; 4.2</h3>
+
+<p>In order to compile this for versions of iOS earlier than 4.2 (when printing was introduced) then you will need to add -weak_framework UIKit to the project settings under "Other Linker Flags". See the Stack Overflow article for more information: <a href="http://stackoverflow.com/questions/4297723/ios-add-printing-but-keep-compatibility-with-ios-3">http://stackoverflow.com/questions/4297723/ios-add-printing-but-keep-compatibility-with-ios-3</a>.</p>
+
+<h3>Testing in the iOS Simulator</h3>
+
+<p>There's no need to waste lots of paper when testing - if you're using the iOS simulator, select File-&gt;Open Printer Simulator to open some dummy printers (print outs will appear as PDF files).</p>
+
+<h3>Adding Page Breaks to Printouts</h3>
+
+<p>Use the 'page-break-before' property to specify a page break, e.g.</p>
+
+<div class="highlight">
+<pre><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>
+<span class="nx">First</span> <span class="nx">page</span><span class="p">.</span>
+<span class="o">&lt;</span><span class="err">/p&gt;</span>
+
+<span class="o">&lt;</span><span class="nx">p</span> <span class="nx">style</span><span class="o">=</span><span class="s2">"page-break-before: always"</span><span class="o">&gt;</span>
+<span class="nx">Second</span> <span class="nx">page</span><span class="p">.</span>
+<span class="o">&lt;</span><span class="err">/p&gt;</span>
+</pre>
+</div>
+
+
+<p>See W3Schools for more more information: <a href="http://www.w3schools.com/cssref/pr_print_pagebb.asp">http://www.w3schools.com/cssref/pr_print_pagebb.asp</a></p>
+
+<p>Note: you will need to add an extra top margin to new pages.</p>
+
+<h3>Printing on Real Printers</h3>
+
+<p>Printing is only supported on AirPrint-enabled printers or with the use of third-party software on your computer. The following pages contain more information:
+ - AirPrint-enabled printers: <a href="http://www.apple.com/ipad/features/airprint.html">http://www.apple.com/ipad/features/airprint.html</a>
+ - Enabling AirPrint on your computer: <a href="http://reviews.cnet.com/8301-19512_7-20023976-233.html">http://reviews.cnet.com/8301-19512_7-20023976-233.html</a>, or <a href="http://www.ecamm.com/mac/printopia/">http://www.ecamm.com/mac/printopia/</a></p>
+
+<h3>EXC_BAD_ACCESS in iOS Simulator</h3>
+
+<p>(Taken from the Twitter plugin).</p>
+
+<p>If you have issues with the app crashing with EXC_BAD_ACCESS on iOS
+Simulator you may have a weak linking issue. With your project highlighted
+in the left column in XCode go to Targets &gt; Your Project &gt; Build Settings &gt;
+Linking &gt; Other Linker Flags and replace -weak_library with -weak-lSystem For
+more information see:
+<a href="http://stackoverflow.com/questions/6738858/use-of-blocks-crashes-app-in-iphone-simulator-4-3-xcode-4-2-and-4-0-2">http://stackoverflow.com/questions/6738858/use-of-blocks-crashes-app-in-iphone-simulator-4-3-xcode-4-2-and-4-0-2</a></p>
+
+<h2>LICENSE</h2>
+
+<p>The MIT License</p>
+
+<p>Copyright (c) 2011 Ian Tipton</p>
+
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
+
+<p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
+
+<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>

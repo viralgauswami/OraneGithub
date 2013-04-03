@@ -1,0 +1,93 @@
+<!DOCTYPE html> 
+<html> 
+	<head> 
+	<title>Login Page</title> 
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link rel="stylesheet" href="css/jquery.mobile-1.0.css" />
+	<link rel="stylesheet" href="css/style.css" type="text/css" />
+	<script src="js/jquery-1.7.1.min.js"></script>
+	<script src="js/script.js"></script>
+	<script src="js/jquery.mobile-1.0.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#loginButton').click(function() {
+                $.mobile.showPageLoadingMsg();
+				$.ajax({
+					type: "POST",
+					url: config.service.baseurl + "/auth/login",
+					data: {
+                        username : $("#username").val(),
+                        password : $("#password").val()
+                    },
+					dataType: "json",
+					success: function(rsp) {
+						$.mobile.hidePageLoadingMsg();
+                        if (rsp.auth) {
+                            window.location.href = rsp.redirect;
+                        }
+                        else {
+                            alert("authentication error");
+                        }
+					},
+					error: function(err) {
+                        $.mobile.hidePageLoadingMsg();
+                        alert("error while processing ...");
+					}
+				});
+			});
+            $.mobile.showPageLoadingMsg();
+            $.ajax({
+                type: "POST",
+                url: config.service.baseurl + "/auth/check",
+                data: {},
+                dataType: "json",
+                success: function(rsp) {
+					$.mobile.hidePageLoadingMsg();
+                    if (rsp.auth) {
+                        window.location.href = rsp.redirect;
+                    }
+                },
+                error: function(err) {
+                    $.mobile.hidePageLoadingMsg();
+                    alert("error while processing ...");
+                }
+            });
+		});
+	</script>
+</head> 
+<body>  
+<div class="logo"><a><img src="images/logo.png" width="220" /></a></div>
+	<div data-role="page" data-theme="m">
+	<div class="page-login">
+		
+		<div class="title">
+			<p>east valley disaster services</p>
+            
+           <!-- change for title view-->
+		</div>
+
+		<div data-role="content">	
+            <form id="loginForm">
+			    <div data-role="fieldcontain" class="ui-hide-label">
+				    <label for="username">Username:</label>
+				    <input type="email" placeholder="user name" id="username" />
+			    </div>
+			    <div data-role="fieldcontain" class="ui-hide-label">
+				    <label for="password">Password:</label>
+				    <input type="password" placeholder="password" id="password" />
+			    </div>
+			    <div data-role="fieldcontain" class="ui-hide-label" id="loginButtonArea">
+				    <div class="cnt-login-btn">
+					    <input type="button" class="login" value="login" id="loginButton" data-inline="true" data-shadow="false" />
+			</div>
+			    </div>
+            </form>
+		</div><!-- /content -->
+	</div>    
+	</div><!-- /page -->
+
+	
+</body>
+</html>

@@ -1,0 +1,299 @@
+<!DOCTYPE html> 
+<html> 
+    <head> 
+    <title>On Truck Page</title> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="css/jquery.mobile-1.0.css" />
+    <link rel="stylesheet" href="css/style.css" type="text/css" />
+    <link rel="stylesheet" href="css/colorbox.css" />
+    <script src="js/phonegap-1.1.0.js"></script>
+    <script src="js/jquery-1.7.1.min.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/jquery.mobile-1.0.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("a.logoff").click(function() {
+                $.mobile.showPageLoadingMsg();
+                $.ajax({
+                    type: "POST",
+                    url: config.service.baseurl + "/auth/logout",
+                    data: {},
+                    dataType: "json",
+                    success: function(rsp) {
+						$.mobile.hidePageLoadingMsg();
+                        window.location.href = "login.html";
+                    },
+                    error: function(err) {
+                        $.mobile.hidePageLoadingMsg();
+                        alert("error while processing ...");
+                    }
+                });
+            });
+            $(".menu a").click(function() {
+                if (!$(this).parent().hasClass("active")) {
+                    window.location.href = $(this).attr("rel");
+                }
+            });
+            $(".close").click(function() {
+                if (!confirm("Are you sure you want to close this job?"))
+                    return false;
+                $.mobile.showPageLoadingMsg();
+                $.ajax({
+                    type: "POST",
+                    url: config.service.baseurl + "/job/close",
+                    data: {},
+                    dataType: "json",
+                    success: function(rsp) {
+						$.mobile.hidePageLoadingMsg();
+                        if (!rsp.auth) {
+                            window.location.href = "login.html";
+                            return;
+                        }
+                        window.location.href = rsp.redirect;
+                    },
+                    error: function(err) {
+                        $.mobile.hidePageLoadingMsg();
+                        alert("error while processing ...");
+                    }
+                });
+            });
+            $(".select-boxes .ui-select").click(function() {
+                if ($(this).next().hasClass("hidden")) {
+                    $(".select-tags").hide();
+                    $(".select-tags .ui-select").next().hide().addClass("hidden");
+                    $(".select-bags").hide();
+                    $(".select-bags .ui-select").next().hide().addClass("hidden");
+                    $(this).next().slideDown("fast", function() {
+                        $(this).removeClass("hidden");
+                    });
+                }
+                else {
+                    $(this).next().slideUp("fast", function() {
+                        $(this).addClass("hidden");
+                        if ($(".select-tags .truck-items .item").size())
+                            $(".select-tags").show();
+                        if ($(".select-bags .truck-items .item").size())
+                            $(".select-bags").show();
+                    });
+                }
+            });
+            $(".select-tags .ui-select").click(function() {
+                if ($(this).next().hasClass("hidden")) {
+                    $(".select-bags").hide();
+                    $(".select-bags .ui-select").next().hide().addClass("hidden");
+                    $(this).next().slideDown("fast", function() {
+                        $(this).removeClass("hidden");
+                    });
+                }
+                else {
+                    $(this).next().slideUp("fast", function() {
+                        $(this).addClass("hidden");
+                        if ($(".select-bags .truck-items .item").size())
+                            $(".select-bags").show();
+                    });
+                }
+            });
+            $(".select-bags .ui-select").click(function() {
+                if ($(this).next().hasClass("hidden")) {
+                    $(this).next().slideDown("fast", function() {
+                        $(this).removeClass("hidden");
+                    });
+                }
+                else {
+                    $(this).next().slideUp("fast", function() {
+                        $(this).addClass("hidden");
+                    });
+                }
+            });
+            $(".truck-items .item").live("click", function() {
+                if ($(this).hasClass("selected")) {
+                    $(this).removeClass("selected");
+                }
+                else {
+                    $(this).addClass("selected");
+                }
+                if ($(".truck-items .item.selected").size()) {
+                    $(".on-truck").show();
+                }
+                else {
+                    $(".on-truck").hide();
+                }
+            });
+            var renderItems = function(rsp) {
+                var isBoxes = false;
+                $(rsp.boxes).each(function(i) {
+                    $(this).each(function(j) {
+                        var item = $(".item.template").clone().removeClass("template").removeClass("hidden");
+                        $(item).find(".item-choose").attr("id", this.id);
+                        $(item).find(".item-name").html(this.name);
+                        $(".select-boxes .truck-items").append(item);
+                        isBoxes = true;
+                    });
+                    if ($(this).size() > 0) {
+                        $(".select-boxes .truck-items").append("<div class='separate'></div>");
+                    }
+                });
+                if (isBoxes)
+                    $(".select-boxes").slideDown();
+                else
+                    $(".select-boxes").slideUp();
+                $(".select-boxes .truck-items .separate:last").remove();
+                var isTags = false;
+                $(rsp.tags).each(function(i) {
+                    $(this).each(function(j) {
+                        var item = $(".item.template").clone().removeClass("template").removeClass("hidden");
+                        $(item).find(".item-choose").attr("id", this.id);
+                        $(item).find(".item-name").html(this.name);
+                        $(".select-tags .truck-items").append(item);
+                        isTags = true;
+                    });
+                    if ($(this).size() > 0) {
+                        $(".select-tags .truck-items").append("<div class='separate'></div>");
+                    }
+                });
+                if (isTags)
+                    $(".select-tags").slideDown();
+                else
+                    $(".select-tags").slideUp();
+                $(".select-tags .truck-items .separate:last").remove();
+                var isBags = false;
+                $(rsp.bags).each(function(i) {
+                    $(this).each(function(j) {
+                        var item = $(".item.template").clone().removeClass("template").removeClass("hidden");
+                        $(item).find(".item-choose").attr("id", this.id);
+                        $(item).find(".item-name").html(this.name);
+                        $(".select-bags .truck-items").append(item);
+                        isBags = true;
+                    });
+                    if ($(this).size() > 0) {
+                        $(".select-bags .truck-items").append("<div class='separate'></div>");
+                    }
+                });
+                if (isBags)
+                    $(".select-bags").slideDown();
+                else
+                    $(".select-bags").slideUp();
+                $(".select-bags .truck-items .separate:last").remove();
+                $(".on-truck").hide();
+            };
+            $(".on-truck .submit").click(function() {
+                var truckItems = "";
+                $(".truck-items .item.selected .item-choose").each(function(i) {
+                    truckItems += $(this).attr("id") + ":";
+                });
+                $.mobile.showPageLoadingMsg();
+                $.ajax({
+                    type: "POST",
+                    url: config.service.baseurl + "/content/on-truck",
+                    data: {
+                        ids: truckItems
+                    },
+                    dataType: "json",
+                    success: function(rsp) {
+						$.mobile.hidePageLoadingMsg();
+                        $(".truck-items").html("");
+                        renderItems(rsp);
+                    },
+                    error: function(err) {
+                        $.mobile.hidePageLoadingMsg();
+                        alert("error while processing ...");
+                    }
+                });
+            });
+            $.mobile.showPageLoadingMsg();
+            $.ajax({
+                type: "POST",
+                url: config.service.baseurl + "/content/get-contents",
+                data: {
+                    state: 'new'
+                },
+                dataType: "json",
+                success: function(rsp) {
+					$.mobile.hidePageLoadingMsg();
+                    if (!rsp.auth) {
+                        window.location.href = "login.html";
+                        return;
+                    }
+                    $(".header .account").html(rsp.date + "<BR>" + rsp.account);
+                    $(".job-name").html(rsp.jobname);
+                    renderItems(rsp);
+                },
+                error: function(err) {
+                    $.mobile.hidePageLoadingMsg();
+                    alert("error while processing ...");
+                }
+            });
+        });
+        
+    </script>
+</head>
+<body>
+<div class="logo"><a><img src="images/logo.png" width="110" /></a></div>
+<div data-role="page" data-theme="m">
+    <div class="page-job-setup">
+        
+        <div class="header">
+            <div class="account"></div>
+            <a class="logoff">LOGOFF</a>
+        </div>
+        
+        <div class="content" data-role="content">
+            <div class="job-title">
+                <img src="images/job_txt.png" width="14" alt="Job Title" title="Job Title" />
+                <div class="job-name"></div>
+                <div class="close-job">
+                    <input type="button" class="close" value="close" data-inline="true" data-shadow="false" />
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="menu">
+                <div class="item"><a class="setup" rel="job-setup.html">setup</a></div>
+                <div class="item"><a class="rooms" rel="rooms.html">rooms</a></div>
+                <div class="item"><a class="contents" rel="contents.html">contents</a></div>
+                <div class="item active"><a class="on-truct" rel="on-truck.html">on truck</a></div>
+                <div class="item last"><a class="pack-back" rel="pack-back.html">pack back</a></div>
+                <div class="clear"></div>
+            </div>
+            <div class="on-truck-sec">
+                <div class="select-contents">
+                    <div class="select-boxes select hidden">
+                        <select name="select-boxes" id="select-boxes" data-icon="arrow-r" data-iconpos="right">
+                            <option value="">Select Boxes</option>
+                        </select>
+                        <div class="truck-items hidden"></div>
+                    </div>
+                    <div class="select-tags select hidden">
+                        <select name="select-tags" id="select-tags" data-icon="arrow-r" data-iconpos="right">
+                            <option value="">Select Tags</option>
+                        </select>
+                        <div class="truck-items hidden"></div>
+                    </div>
+                    <div class="select-bags select hidden">
+                        <select name="select-bags" id="select-bags" data-icon="arrow-r" data-iconpos="right">
+                            <option value="">Select Bags</option>
+                        </select>
+                        <div class="truck-items hidden"></div>
+                    </div>
+                </div>
+                <div class="on-truck hidden">
+                    <div class="submit-item big-btn">
+                        <input type="button" class="submit" value="on truck" data-inline="true" data-shadow="false" />
+                    </div>
+                </div>
+                <div class="clear"></div>
+                <div class="item template hidden">
+                    <div class="item-choose"></div>
+                    <div class="item-name">2304-B-KIT026</div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer"></div>
+        
+    </div>
+</div>
+</body>
+</html>
