@@ -1,0 +1,28 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:background="@drawable/back" >
+
+    <Button
+        android:id="@+id/btnStartLesson"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" android:layout_centerHorizontal="true"
+        android:layout_marginBottom="50dp" android:text="Start Lessons" 
+        android:textColor="#000000" android:textStyle="bold" 
+        android:textSize="17dip" android:background="@drawable/home_button"
+        android:gravity="center" />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btnStartLesson"
+        android:layout_marginBottom="17dp"
+        android:src="@drawable/log_container"
+        android:layout_centerHorizontal="true" />
+
+    
+
+</RelativeLayout>

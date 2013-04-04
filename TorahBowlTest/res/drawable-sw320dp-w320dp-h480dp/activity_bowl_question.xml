@@ -1,0 +1,289 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:background="@drawable/back" >
+
+    <RelativeLayout
+        android:id="@+id/rlBowl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/bowl1"
+        android:visibility="gone" >
+        
+        <ImageView
+            android:id="@+id/imgRound"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:src="@drawable/round_sky" />
+        
+        <com.example.torahcomponent.AngledTextView
+            android:id="@+id/atv1"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:textColor="#000000"
+            android:gravity="center"
+            android:layout_marginTop="15dp"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <com.example.torahcomponent.AngledTextView
+            android:id="@+id/atv2"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignTop="@+id/atv1"
+            android:layout_marginTop="18dp"
+            android:layout_toLeftOf="@+id/atv1"
+            android:gravity="center"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#000000" />
+        
+        <com.example.torahcomponent.AngledTextView
+            android:id="@+id/atv3"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignTop="@+id/atv1"
+            android:layout_marginTop="18dp"
+            android:layout_toRightOf="@+id/atv1"
+            android:gravity="center"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#000000" />
+
+        <com.example.torahcomponent.AngledTextView
+            android:id="@+id/atv4"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignLeft="@+id/atv1"
+            android:layout_below="@+id/atv1"
+            android:gravity="center"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#000000" />
+
+        <com.example.torahcomponent.AngledTextView
+            android:id="@+id/atv5"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_below="@+id/atv2"
+            android:layout_toLeftOf="@+id/atv2"
+            android:gravity="center"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#000000" />
+
+        <com.example.torahcomponent.AngledTextView
+            android:id="@+id/atv8"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_below="@+id/atv3"
+            android:layout_toRightOf="@+id/atv3"
+            android:gravity="center"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#000000" />
+
+        <com.example.torahcomponent.AngledTextView
+            android:id="@+id/atv7"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignBaseline="@+id/atv5"
+            android:layout_alignBottom="@+id/atv5"
+            android:layout_alignLeft="@+id/atv3"
+            android:gravity="center"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#000000" />
+
+        <com.example.torahcomponent.AngledTextView
+            android:id="@+id/atv6"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignBaseline="@+id/atv5"
+            android:layout_alignBottom="@+id/atv5"
+            android:layout_toLeftOf="@+id/atv4"
+            android:gravity="center"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#000000" />
+
+        <com.example.torahcomponent.AngledTextView
+            android:id="@+id/atv9"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_below="@+id/atv4"
+            android:layout_toLeftOf="@+id/atv3"
+            android:gravity="center"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#000000" />
+
+        <com.example.torahcomponent.AngledTextView
+            android:id="@+id/atv12"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignLeft="@+id/atv7"
+            android:layout_below="@+id/atv7"
+            android:gravity="center"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#000000" />
+
+        <com.example.torahcomponent.AngledTextView
+            android:id="@+id/atv11"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_below="@+id/atv6"
+            android:layout_toLeftOf="@+id/atv9"
+            android:gravity="center"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#000000" />
+
+        <com.example.torahcomponent.AngledTextView
+            android:id="@+id/atv14"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_below="@+id/atv9"
+            android:layout_toLeftOf="@+id/atv7"
+            android:gravity="center"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#000000" />
+
+        <com.example.torahcomponent.AngledTextView
+            android:id="@+id/atv13"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_below="@+id/atv7"
+            android:layout_toRightOf="@+id/atv7"
+            android:gravity="center"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#000000" />
+
+        <com.example.torahcomponent.AngledTextView
+            android:id="@+id/atv10"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_below="@+id/atv5"
+            android:layout_toLeftOf="@+id/atv6"
+            android:gravity="center"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#000000" />
+
+        <com.example.torahcomponent.AngledTextView
+            android:id="@+id/atv16"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_below="@+id/atv11"
+            android:layout_toRightOf="@+id/atv10"
+            android:gravity="center"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#000000" />
+
+        <com.example.torahcomponent.AngledTextView
+            android:id="@+id/atv17"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_below="@+id/atv12"
+            android:layout_toRightOf="@+id/atv9"
+            android:gravity="center"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#000000" />
+
+        <com.example.torahcomponent.AngledTextView
+            android:id="@+id/atv15"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_below="@+id/atv11"
+            android:layout_toLeftOf="@+id/atv11"
+            android:gravity="center"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#000000" />
+
+        <com.example.torahcomponent.AngledTextView
+            android:id="@+id/atv19"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_below="@+id/atv14"
+            android:layout_toLeftOf="@+id/atv12"
+            android:gravity="center"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#000000" />
+
+        <com.example.torahcomponent.AngledTextView
+            android:id="@+id/atv18"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_below="@+id/atv12"
+            android:layout_toRightOf="@+id/atv12"
+            android:gravity="center"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#000000" />
+
+        <com.example.torahcomponent.AngledTextView
+            android:id="@+id/atv22"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_below="@+id/atv19"
+            android:layout_toLeftOf="@+id/atv17"
+            android:gravity="center"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#000000" />
+
+        <com.example.torahcomponent.AngledTextView
+            android:id="@+id/atv20"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_below="@+id/atv16"
+            android:layout_toLeftOf="@+id/atv19"
+            android:gravity="center"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#000000" />
+
+        <com.example.torahcomponent.AngledTextView
+            android:id="@+id/atv21"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_below="@+id/atv17"
+            android:layout_toRightOf="@+id/atv19"
+            android:gravity="center"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#000000" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tvLessonTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/imageView1"
+        android:textStyle="bold"
+        android:textColor="#000000"
+        android:layout_margin="7dp"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/tvQuestionDesc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/tvLessonTitle"
+        android:layout_below="@+id/tvLessonTitle"
+        android:layout_marginTop="7dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#000000" />
+
+    <ProgressBar
+        android:id="@+id/pbContentLoad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:text="screen-1"
+        android:visibility="gone" />
+
+</RelativeLayout>
